@@ -4,25 +4,24 @@
 """
 
 
-def find_peak(numbr):
-    '''
-        Finds the peak in a list of numbers
-    '''
-    length = len(numbr)
+def find_peak(list_of_integers):
+    """
+    Finds the peak in a list of list_of_integers
+    using an optimized binary search approach.
+    """
+    length = len(list_of_integers)
     if length == 0:
         return None
-    if length == 1:
-        return (numbr[0])
-    if length == 2:
-        return numbr[0] if numbr[0] >= numbr[1] else numbr[1]
 
-    for idx in range(0, length):
-        value = numbr[idx]
-        if (idx > 0 and idx < length - 1 and
-                numbr[idx + 1] <= value and numbr[idx - 1] <= value):
-                return value
-        elif idx == 0 and numbr[idx + 1] <= value:
-            return value
-        elif idx == length - 1 and numbr[idx - 1] <= value:
-            return value
-    return pick
+    low = 0
+    high = length - 1
+
+    while low < high:
+        mid = (low + high) // 2
+
+        if list_of_integers[mid] < list_of_integers[mid + 1]:
+            low = mid + 1
+        else:
+            high = mid
+
+    return list_of_integers[low]
