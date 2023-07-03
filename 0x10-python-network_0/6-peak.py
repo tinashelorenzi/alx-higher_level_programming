@@ -3,9 +3,11 @@
    this function finds a peak in a list of unsorted integers
 """
 
+
 def find_peak(list_of_integers):
     """
-    Finds the peak in a list of list_of_integers using an optimized binary search approach.
+    Finds the peak in a list of list_of_integers
+    using an optimized binary search approach.
     """
     length = len(list_of_integers)
     if length == 0:
