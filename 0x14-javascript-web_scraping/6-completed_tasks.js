@@ -1,26 +1,35 @@
-#!/usr/bin/node
+// 6-completed_tasks.js
 
 const request = require('request');
-const url = process.argv[2];
 
-request(url, function (err, response, body) {
-  if (err) {
-    console.log(err);
-  } else if (response.statusCode === 200) {
-    const completed = {};
-    const tasks = JSON.parse(body);
-    for (const i in tasks) {
-      const task = tasks[i];
-      if (task.completed === true) {
-        if (completed[task.userId] === undefined) {
-          completed[task.userId] = 1;
+// Function to compute the number of completed tasks for each user
+function countCompletedTasks(apiUrl) {
+  request(apiUrl, { json: true }, (error, response, body) => {
+    if (error) {
+      console.error('Error:', error);
+      return;
+    }
+
+    // Create an object to store the counts for each user
+    const completedTasksCount = {};
+
+    // Loop through the tasks and count the completed ones for each user
+    for (const task of body) {
+      if (task.completed) {
+        if (completedTasksCount[task.userId]) {
+          completedTasksCount[task.userId]++;
         } else {
-          completed[task.userId]++;
+          completedTasksCount[task.userId] = 1;
         }
       }
     }
-    console.log(completed);
-  } else {
-    console.log('An error occured. Status code: ' + response.statusCode);
-  }
-});
+
+    console.log(completedTasksCount);
+  });
+}
+
+// Get the API URL from the command line arguments
+const apiUrl = process.argv[2];
+
+// Call the function to compute and print the completed tasks count
+countCompletedTasks(apiUrl);
